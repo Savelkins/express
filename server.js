@@ -8,7 +8,7 @@ mongoose
     console.log("mongodb connect success");
   })
   .catch((err) => {
-    console.error(`mongodb connect error: ${err}`);
+    console.log(`mongodb connect error: ${err}`);
   });
 
 const server = http.createServer(app);

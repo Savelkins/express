@@ -1,9 +1,9 @@
 const express = require("express");
+const { createUser } = require("./controllers/userController");
 const app = express();
 
-app.get("/user/:userId", (req, res) => {
-  const response = req.params.userId;
-  res.send(`<h1>${response}</h1>`);
-});
+app.use(express.json());
+
+app.post("/users", createUser);
 
 module.exports = app;
