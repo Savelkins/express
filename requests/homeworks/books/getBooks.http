@@ -1,0 +1,9 @@
+GET http://localhost:3000/books?title=the&minYear=1900&maxYear=1950&avaible=yes HTTP/1.1
+
+
+# PATCH http://localhost:3000/books/67eff3cb79e20b7ff799affe HTTP/1.1
+# Content-Type: application/json
+
+# {
+#     "title": "Hello"
+# }
