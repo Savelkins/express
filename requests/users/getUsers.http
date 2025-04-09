@@ -1,1 +1,1 @@
-GET http://localhost:3000/users?maxAge=25&login=b HTTP/1.1
+GET http://localhost:3000/users/67e6bd5c8670e9df9831acb8 HTTP/1.1

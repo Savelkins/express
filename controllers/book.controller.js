@@ -1,3 +1,4 @@
+const createError = require("http-errors");
 const Book = require("../models/Book");
 
 module.exports.createBook = async (req, res, next) => {
@@ -50,7 +51,7 @@ module.exports.findBookById = async (req, res, next) => {
   try {
     const book = await Book.findById(req.params.bookId);
     if (!book) {
-      return res.status(404).send({ data: "book not found" });
+      return next(createError(404, "Book not found"));
     }
     res.status(200).send({ data: book });
   } catch (error) {
@@ -65,7 +66,7 @@ module.exports.updateBookById = async (req, res, next) => {
       { new: true }
     );
     if (!updateBook) {
-      return res.status(404).send({ data: "book not found" });
+      return next(createError(404, "Book not found"));
     }
     res.status(200).send({ data: updateBook });
   } catch (error) {
@@ -76,7 +77,7 @@ module.exports.deleteBookById = async (req, res, next) => {
   try {
     const deletedBook = await Book.findByIdAndDelete(req.params.bookId);
     if (!deletedBook) {
-      return res.status(404).send({ data: "book not found" });
+      return next(createError(404, "Book not found"));
     }
     res.status(200).send({ data: deletedBook });
   } catch (error) {

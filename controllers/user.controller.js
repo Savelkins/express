@@ -1,3 +1,5 @@
+const createError = require("http-errors");
+
 const User = require("../models/User");
 
 module.exports.createUser = async (req, res, next) => {
@@ -5,7 +7,7 @@ module.exports.createUser = async (req, res, next) => {
     const newUser = await User.create(req.body);
     res.status(201).send({ data: newUser });
   } catch (error) {
-    next(error);
+    next(createError(400, error.message));
   }
 };
 module.exports.findAllUsers = async (req, res, next) => {
@@ -36,9 +38,8 @@ module.exports.findAllUsers = async (req, res, next) => {
 module.exports.findUserById = async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
-    if (!user) {
-      return res.status(404).send({ data: "user not found" });
-    }
+    if (!user) return next(createError(404, "user not found"));
+
     res.status(200).send({ data: user });
   } catch (error) {
     next(error);
@@ -51,21 +52,17 @@ module.exports.updateUserById = async (req, res, next) => {
       req.body,
       { new: true }
     );
-    if (!updateUser) {
-      return res.status(404).send({ data: "user not found" });
-    }
+    if (!updateUser) return next(createError(404, "user not found"));
 
     res.status(200).send({ data: updateUser });
   } catch (error) {
-    next(error);
+    next(createError(400, error.message));
   }
 };
 module.exports.deleteUserById = async (req, res, next) => {
   try {
     const deleteUser = await User.findOneAndDelete(req.params.userId);
-    if (!deleteUser) {
-      return res.status(404).send({ data: "user not found" });
-    }
+    if (!deleteUser) return next(createError(404, "user not found"));
     res.status(200).send({ data: deleteUser });
   } catch (error) {
     next(error);

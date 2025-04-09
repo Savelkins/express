@@ -6,13 +6,30 @@ const {
   updateHomeworkById,
   deleteHomeworkById,
 } = require("../controllers/homework.controller");
+const {
+  validateHomework,
+  validateHomeworkQuery,
+} = require("../middlewares/homework.mw");
+const {
+  homeworkSchemaPost,
+  homeworkSchemaUpdate,
+  homeworkSchemaQuery,
+} = require("../validations/homework.validaton");
 
 const homeworkRouter = express.Router();
 
-homeworkRouter.post("/", createHomework);
-homeworkRouter.get("/", findAllHomeworks);
+homeworkRouter.post("/", validateHomework(homeworkSchemaPost), createHomework);
+homeworkRouter.get(
+  "/",
+  validateHomeworkQuery(homeworkSchemaQuery),
+  findAllHomeworks
+);
 homeworkRouter.get("/:homeworkId", findHomeworkById);
-homeworkRouter.patch("/:homeworkId", updateHomeworkById);
+homeworkRouter.patch(
+  "/:homeworkId",
+  validateHomework(homeworkSchemaUpdate),
+  updateHomeworkById
+);
 homeworkRouter.delete("/:homeworkId", deleteHomeworkById);
 
 module.exports = homeworkRouter;
